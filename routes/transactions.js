@@ -3,6 +3,8 @@ const {
   getTransactions,
   getTransaction,
   createTransaction,
+  deleteTransaction,
+  updateTransaction,
 } = require("../controllers/transactionController");
 
 const router = express.Router();
@@ -13,16 +15,8 @@ router.get("/:id", getTransaction);
 
 router.post("/", createTransaction);
 
-router.delete("/:id", (req, res) => {
-  res.json({
-    msg: "DELETE A WORKOUT",
-  });
-});
+router.delete("/:id", deleteTransaction);
 
-router.patch("/:id", (req, res) => {
-  res.json({
-    msg: "UPDATE A WORKOUT",
-  });
-});
+router.patch("/:id", updateTransaction);
 
 module.exports = router;
