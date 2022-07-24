@@ -1,35 +1,17 @@
 const express = require("express");
-const Transaction = require("../models/transactionModel");
+const {
+  getTransactions,
+  getTransaction,
+  createTransaction,
+} = require("../controllers/transactionController");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({
-    msg: "GET ALL TRANSACTIONS",
-  });
-});
+router.get("/", getTransactions);
 
-router.get("/:id", (req, res) => {
-  res.json({
-    msg: "GET A SINGLE TRANSACTION",
-  });
-});
+router.get("/:id", getTransaction);
 
-router.post("/", async (req, res) => {
-  const { description, amount, tag, date } = req.body;
-
-  try {
-    const transaction = await Transaction.create({
-      description,
-      amount,
-      tag,
-      date,
-    });
-    res.status(200).json(transaction);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.post("/", createTransaction);
 
 router.delete("/:id", (req, res) => {
   res.json({
