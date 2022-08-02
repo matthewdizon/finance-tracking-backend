@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const transactionRoutes = require("./routes/transactions");
+const walletRoutes = require("./routes/wallets");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/wallets", walletRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
