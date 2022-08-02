@@ -14,6 +14,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (_req, res) => res.status(200).send("OK"));
+
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/wallets", walletRoutes);
 

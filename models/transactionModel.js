@@ -1,3 +1,5 @@
+const Wallet = require("../models/walletModel");
+
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
@@ -19,6 +21,10 @@ const transactionSchema = new Schema(
     date: {
       type: Date,
       required: true,
+    },
+    wallet: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Wallet",
     },
   },
   { timestamps: true }

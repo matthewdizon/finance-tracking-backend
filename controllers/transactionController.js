@@ -1,4 +1,6 @@
 const Transaction = require("../models/transactionModel");
+const Wallet = require("../models/walletModel");
+
 const mongoose = require("mongoose");
 
 const getTransactions = async (req, res) => {
@@ -24,7 +26,24 @@ const getTransaction = async (req, res) => {
 };
 
 const createTransaction = async (req, res) => {
-  const { description, amount, tag, date } = req.body;
+  const { description, amount, tag, date, selectedWallet } = req.body;
+
+  const test = tag === "Expense" ? -Math.abs(amount) : amount;
+
+  const wallet = await Wallet.findById(selectedWallet);
+
+  console.log(wallet);
+
+  try {
+    await Wallet.findOneAndUpdate(
+      { _id: selectedWallet },
+      {
+        $inc: { amount: test },
+      }
+    );
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 
   try {
     const transaction = await Transaction.create({
@@ -32,6 +51,7 @@ const createTransaction = async (req, res) => {
       amount,
       tag,
       date,
+      wallet,
     });
     res.status(200).json(transaction);
   } catch (error) {

@@ -38,21 +38,21 @@ const createWallet = async (req, res) => {
   }
 };
 
-// const deleteTransaction = async (req, res) => {
-//   const { id } = req.params;
+const deleteWallet = async (req, res) => {
+  const { id } = req.params;
 
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return res.status(404).json({ error: "No such transaction" });
-//   }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such wallet" });
+  }
 
-//   const transaction = await Transaction.findOneAndDelete({ _id: id });
+  const wallet = await Wallet.findOneAndDelete({ _id: id });
 
-//   if (!transaction) {
-//     return res.status(404).json({ error: "No such transaction" });
-//   }
+  if (!wallet) {
+    return res.status(404).json({ error: "No such wallet" });
+  }
 
-//   res.status(200).json(transaction);
-// };
+  res.status(200).json(wallet);
+};
 
 // const updateTransaction = async (req, res) => {
 //   const { id } = req.params;
@@ -79,6 +79,6 @@ module.exports = {
   getWallets,
   getWallet,
   createWallet,
-  //   deleteTransaction,
+  deleteWallet,
   //   updateTransaction,
 };

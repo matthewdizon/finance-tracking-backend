@@ -3,7 +3,7 @@ const {
   getWallets,
   getWallet,
   createWallet,
-  // deleteTransaction,
+  deleteWallet,
   // updateTransaction,
 } = require("../controllers/walletController");
 
@@ -15,7 +15,7 @@ router.get("/:id", getWallet);
 
 router.post("/", createWallet);
 
-// router.delete("/:id", deleteTransaction);
+router.delete("/:id", deleteWallet);
 
 // router.patch("/:id", updateTransaction);
 
