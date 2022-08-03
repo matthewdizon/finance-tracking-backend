@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const transactionRoutes = require("./routes/transactions");
 const walletRoutes = require("./routes/wallets");
+const userRoutes = require("./routes/users");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get("/", (_req, res) => res.status(200).send("OK"));
 
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/wallets", walletRoutes);
+app.use("/api/user", userRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
