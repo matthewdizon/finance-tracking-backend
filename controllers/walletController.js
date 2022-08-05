@@ -24,13 +24,28 @@ const getWallet = async (req, res) => {
 };
 
 const createWallet = async (req, res) => {
-  const { name, description, amount } = req.body;
+  const { name, description, amount, userId } = req.body;
+
+  const users = mongoose.connection.db
+    .collection("users")
+    .find({ _id: mongoose.Types.ObjectId(userId) })
+    .toArray();
+
+  async function fetchUser() {
+    let user = await users.then((res) => res);
+    return user;
+  }
+
+  let userArray = await fetchUser();
+
+  const user = userArray[0];
 
   try {
     const wallet = await Wallet.create({
       name,
       description,
       amount,
+      user,
     });
     res.status(200).json(wallet);
   } catch (error) {
