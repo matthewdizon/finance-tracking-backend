@@ -26,6 +26,10 @@ const transactionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Wallet",
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   { timestamps: true }
 );

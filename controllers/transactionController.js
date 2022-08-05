@@ -26,13 +26,25 @@ const getTransaction = async (req, res) => {
 };
 
 const createTransaction = async (req, res) => {
-  const { description, amount, tag, date, selectedWallet } = req.body;
+  const { description, amount, tag, date, selectedWallet, userId } = req.body;
 
   const test = tag === "Expense" ? -Math.abs(amount) : amount;
 
   const wallet = await Wallet.findById(selectedWallet);
 
-  console.log(wallet);
+  const users = mongoose.connection.db
+    .collection("users")
+    .find({ _id: mongoose.Types.ObjectId(userId) })
+    .toArray();
+
+  async function fetchUser() {
+    let user = await users.then((res) => res);
+    return user;
+  }
+
+  let userArray = await fetchUser();
+
+  const user = userArray[0];
 
   try {
     await Wallet.findOneAndUpdate(
@@ -52,6 +64,7 @@ const createTransaction = async (req, res) => {
       tag,
       date,
       wallet,
+      user,
     });
     res.status(200).json(transaction);
   } catch (error) {
