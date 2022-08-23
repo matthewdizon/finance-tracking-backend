@@ -28,7 +28,7 @@ const getTransaction = async (req, res) => {
 const createTransaction = async (req, res) => {
   const { description, amount, tag, date, selectedWallet, userId } = req.body;
 
-  const test = tag === "Expense" ? -Math.abs(amount) : amount;
+  const updatedAmount = tag === "Expense" ? -Math.abs(amount) : amount;
 
   const wallet = await Wallet.findById(selectedWallet);
 
@@ -50,7 +50,7 @@ const createTransaction = async (req, res) => {
     await Wallet.findOneAndUpdate(
       { _id: selectedWallet },
       {
-        $inc: { amount: test },
+        $inc: { amount: updatedAmount },
       }
     );
   } catch (error) {
@@ -80,6 +80,22 @@ const deleteTransaction = async (req, res) => {
   }
 
   const transaction = await Transaction.findOneAndDelete({ _id: id });
+  // console.log(transaction.wallet);
+
+  const updatedAmount =
+    transaction.tag === "Expense"
+      ? transaction.amount
+      : -Math.abs(transaction.amount);
+
+  // const wallet = await Wallet.findById(transaction.wallet);
+  // console.log("WALLET HERE", wallet);
+
+  await Wallet.findOneAndUpdate(
+    { _id: transaction.wallet },
+    {
+      $inc: { amount: updatedAmount },
+    }
+  );
 
   if (!transaction) {
     return res.status(404).json({ error: "No such transaction" });
