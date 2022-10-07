@@ -6,7 +6,11 @@ const transactionRoutes = require("./routes/transactions");
 const walletRoutes = require("./routes/wallets");
 const userRoutes = require("./routes/users");
 
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json());
 
